@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SnapFix - Your Trusted Service Provider</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="Black and Blue Initials Creative Logo (3).png" alt="SnapFix Logo" >
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#leaderboard">Leaderboard</a></li>
+                <li><button id="loginBtn">Login</button></li>
+                <li><button id="registerBtn">Register</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <h1>Professional Home Services</h1>
+            <p>Find trusted professionals for all your home service needs!</p>
+        </section>
+
+        <section id="services" class="services">
+            <h2>Our Services</h2>
+            <div class="service-grid">
+                <a href="booking.html" class="service-link">
+                    <div class="service-card">
+                        <i class="fas fa-bolt"></i>
+                        <h3>Electrician</h3>
+                        <p>Professional electrical services</p>
+                    </div>
+                </a>
+                <a href="booking.html" class="service-link">
+                    <div class="service-card">
+                        <i class="fas fa-wrench"></i>
+                        <h3>Plumber</h3>
+                        <p>Expert plumbing solutions</p>
+                    </div>
+                </a>
+                <a href="booking.html" class="service-link">
+                    <div class="service-card">
+                        <i class="fas fa-hammer"></i>
+                        <h3>Carpenter</h3>
+                        <p>Quality carpentry work</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section id="leaderboard" class="leaderboard">
+            <h2>Top Service Providers</h2>
+            <div class="leaderboard-container">
+                <!-- Leaderboard content will be dynamically populated -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Login</h2>
+            <form id="loginForm">
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Register</h2>
+            <form id="registerForm">
+                <input type="text" placeholder="Full Name" required>
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Password" required>
+                <input type="password" placeholder="Confirm Password" required>
+                <button type="submit">Register</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 HomeServices. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html> 

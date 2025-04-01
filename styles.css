@@ -1,0 +1,474 @@
+:root {
+    --primary-color: #FF9933;    /* Main orange from logo */
+    --secondary-color: #000000;  /* Black */
+    --orange-light: #FFB366;     /* Lighter orange */
+    --orange-dark: #E68A00;      /* Darker orange */
+    --text-color: #333333;       /* Dark gray for text */
+    --light-color: #FFFFFF;      /* White */
+    --background-color: #FFF5E6; /* Very light orange background */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    position: relative;
+    background-color: var(--background-color);
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('Black\ and\ Blue\ Initials\ Creative\ Logo\ \(3\).png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 20%;
+    opacity: 0.1;
+    z-index: -1;
+    animation: float 6s ease-in-out infinite;
+}
+
+/* Header Styles */
+header {
+    background-color: var(--primary-color);
+    padding: 1rem;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 100;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.logo {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+}
+
+.nav-links li {
+    margin-left: 2rem;
+}
+
+.nav-links a {
+    color: var(--light-color);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.nav-links a:hover {
+    color: var(--secondary-color);
+}
+
+button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: var(--secondary-color);
+    color: var(--light-color);
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background-color: var(--orange-dark);
+    transform: translateY(-2px);
+}
+
+/* Hero Section */
+.hero {
+    height: 60vh;
+    background: linear-gradient(rgba(255, 153, 51, 0.9), rgba(255, 153, 51, 0.7)), url('https://source.unsplash.com/random/1920x1080/?home-repair');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    margin-top: 60px;
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    color: white !important;  /* Override any other color settings */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    animation: fadeInDown 1.2s ease-out;
+    margin: 0 auto;
+    max-width: 800px;
+}
+
+/* Services Section */
+.services {
+    padding: 4rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.services h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.service-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.service-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.service-card {
+    background-color: var(--light-color);
+    padding: 2rem;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    border: 2px solid var(--primary-color);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    height: 100%; /* Ensure consistent height */
+}
+
+.service-card::before {
+    content: 'Book Now';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 153, 51, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 2;
+}
+
+.service-link:hover .service-card {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(255, 153, 51, 0.3);
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.service-link:hover .service-card::before {
+    opacity: 1;
+}
+
+.service-card i {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.book-btn {
+    margin-top: 1rem;
+    background-color: var(--primary-color);
+    color: var(--light-color);
+}
+
+.book-btn:hover {
+    background-color: var(--orange-dark);
+}
+
+/* Leaderboard Section */
+.leaderboard {
+    padding: 4rem 2rem;
+    background-color: var(--background-color);
+}
+
+.leaderboard h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.leaderboard-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: var(--light-color);
+    padding: 2rem;
+    border-radius: 8px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 300px;
+    border: 2px solid var(--primary-color);
+}
+
+.close {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+input {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 5px rgba(255, 153, 51, 0.3);
+}
+
+/* Footer */
+footer {
+    background-color: var(--primary-color);
+    color: var(--light-color);
+    text-align: center;
+    padding: 1rem;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Additional Styling for better visual hierarchy */
+h1, h2, h3 {
+    color: var(--secondary-color);
+}
+
+.service-card h3 {
+    color: var(--primary-color);
+}
+
+/* Add gradient overlays */
+.services::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background: linear-gradient(to bottom, var(--background-color), transparent);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--background-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--orange-dark);
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeInDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Booking page styles */
+.booking-page {
+    padding: 6rem 2rem 4rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.booking-form {
+    background-color: var(--light-color);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border: 2px solid var(--primary-color);
+}
+
+.booking-form h2 {
+    color: var(--primary-color);
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px rgba(255, 153, 51, 0.3);
+    outline: none;
+}
+
+.submit-btn {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: var(--orange-dark);
+    transform: translateY(-2px);
+}
+
+/* Success message animation */
+@keyframes slideIn {
+    0% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.booking-success {
+    background-color: #4CAF50;
+    color: white;
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 2rem;
+    animation: slideIn 0.5s ease-out;
+    display: none;
+}
+
+/* Add these new styles for the confirmation message */
+.booking-confirmation {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1.5rem;
+    border-radius: 4px;
+    margin-bottom: 2rem;
+    animation: slideIn 0.5s ease-out;
+    display: none;
+    text-align: center;
+    position: relative;
+}
+
+.scanning-animation {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.scanning-animation::after {
+    content: '';
+    animation: scanning 1.5s infinite;
+}
+
+@keyframes scanning {
+    0% { content: ''; }
+    25% { content: '.'; }
+    50% { content: '..'; }
+    75% { content: '...'; }
+    100% { content: ''; }
+} 
