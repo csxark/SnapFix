@@ -40,21 +40,49 @@ window.addEventListener('click', (e) => {
 });
 
 // Handle form submissions
-document.getElementById('loginForm').addEventListener('submit', (e) => {
+document.getElementById('loginForm')?.addEventListener('submit', (e) => {
     e.preventDefault();
+    const email = e.target.querySelector('input[type="email"]').value;
+    const password = e.target.querySelector('input[type="password"]').value;
+    
+    // Basic validation
+    if (!email || !password) {
+        alert('Please fill in all fields');
+        return;
+    }
+    
     // Add login logic here
     alert('Login functionality to be implemented');
+    loginModal.style.display = 'none';
 });
 
-document.getElementById('registerForm').addEventListener('submit', (e) => {
+document.getElementById('registerForm')?.addEventListener('submit', (e) => {
     e.preventDefault();
+    const name = e.target.querySelector('input[type="text"]').value;
+    const email = e.target.querySelector('input[type="email"]').value;
+    const password = e.target.querySelectorAll('input[type="password"]')[0].value;
+    const confirmPassword = e.target.querySelectorAll('input[type="password"]')[1].value;
+    
+    // Basic validation
+    if (!name || !email || !password || !confirmPassword) {
+        alert('Please fill in all fields');
+        return;
+    }
+    
+    if (password !== confirmPassword) {
+        alert('Passwords do not match');
+        return;
+    }
+    
     // Add registration logic here
     alert('Registration functionality to be implemented');
+    registerModal.style.display = 'none';
 });
 
 // Populate leaderboard
 function populateLeaderboard() {
     const leaderboardContainer = document.querySelector('.leaderboard-container');
+    if (!leaderboardContainer) return;
     
     // Sort service providers by rating
     const sortedProviders = [...serviceProviders].sort((a, b) => b.rating - a.rating);
@@ -72,18 +100,17 @@ function populateLeaderboard() {
 populateLeaderboard();
 
 // Add booking functionality to service cards
-document.querySelectorAll('.book-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
+document.querySelectorAll('.service-link').forEach(link => {
+    link.addEventListener('click', (e) => {
         const isLoggedIn = false; // Replace with actual login check
         if (!isLoggedIn) {
+            e.preventDefault();
             loginModal.style.display = 'block';
-        } else {
-            alert('Booking functionality to be implemented');
         }
     });
 });
 
-// Add this JavaScript file and link it in both HTML files
+// Handle booking form
 document.addEventListener('DOMContentLoaded', function() {
     // Handle service selection
     const serviceLinks = document.querySelectorAll('.service-link');
@@ -118,6 +145,39 @@ document.addEventListener('DOMContentLoaded', function() {
         bookingForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
+            // Basic form validation
+            const requiredFields = ['service', 'date', 'time', 'name', 'email', 'phone', 'address'];
+            const missingFields = requiredFields.filter(field => !this[field].value);
+            
+            if (missingFields.length > 0) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            // Validate email format
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(this.email.value)) {
+                alert('Please enter a valid email address');
+                return;
+            }
+            
+            // Validate phone number (basic format)
+            const phoneRegex = /^\+?[\d\s-]{10,}$/;
+            if (!phoneRegex.test(this.phone.value)) {
+                alert('Please enter a valid phone number');
+                return;
+            }
+            
+            // Validate date is not in the past
+            const selectedDate = new Date(this.date.value);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            if (selectedDate < today) {
+                alert('Please select a future date');
+                return;
+            }
+            
             // Hide the form
             bookingForm.style.display = 'none';
             
@@ -144,4 +204,31 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 3000);
         });
     }
+});
+
+// Mobile menu functionality
+const menuToggle = document.querySelector('.menu-toggle');
+const navLinks = document.querySelector('.nav-links');
+
+menuToggle?.addEventListener('click', () => {
+    menuToggle.classList.toggle('active');
+    navLinks.classList.toggle('active');
+});
+
+// Close mobile menu when clicking outside
+document.addEventListener('click', (e) => {
+    if (navLinks?.classList.contains('active') && 
+        !e.target.closest('.nav-links') && 
+        !e.target.closest('.menu-toggle')) {
+        menuToggle.classList.remove('active');
+        navLinks.classList.remove('active');
+    }
+});
+
+// Close mobile menu when clicking a link
+document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+        menuToggle.classList.remove('active');
+        navLinks.classList.remove('active');
+    });
 }); 

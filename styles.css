@@ -40,44 +40,148 @@ body::before {
 /* Header Styles */
 header {
     background-color: var(--primary-color);
-    padding: 1rem;
+    padding: 0.8rem 1rem;
     position: fixed;
     width: 100%;
     top: 0;
     z-index: 100;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 0 auto;
+    padding: 0 1rem;
 }
 
 .logo {
-    color: white;
-    font-size: 1.5rem;
-    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    max-height: 45px;
+    width: auto;
+    transition: transform 0.3s ease;
+}
+
+.logo img:hover {
+    transform: scale(1.05);
 }
 
 .nav-links {
     display: flex;
     list-style: none;
+    align-items: center;
+    gap: 2rem;
 }
 
 .nav-links li {
-    margin-left: 2rem;
+    margin: 0;
 }
 
 .nav-links a {
     color: var(--light-color);
     text-decoration: none;
     font-weight: 600;
+    font-size: 1.1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
 }
 
 .nav-links a:hover {
     color: var(--secondary-color);
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.nav-links button {
+    padding: 0.6rem 1.2rem;
+    border: 2px solid var(--light-color);
+    background-color: transparent;
+    color: var(--light-color);
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.nav-links button:hover {
+    background-color: var(--light-color);
+    color: var(--primary-color);
+}
+
+/* Mobile Menu Button */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    cursor: pointer;
+    padding: 0.5rem;
+    z-index: 1000;
+}
+
+.menu-toggle span {
+    display: block;
+    width: 25px;
+    height: 2px;
+    background-color: var(--light-color);
+    transition: all 0.3s ease;
+}
+
+/* Responsive Navbar */
+@media screen and (max-width: 768px) {
+    .menu-toggle {
+        display: flex;
+    }
+
+    .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 80%;
+        max-width: 300px;
+        height: 100vh;
+        background-color: var(--primary-color);
+        flex-direction: column;
+        padding: 5rem 2rem 2rem;
+        transition: right 0.3s ease;
+        box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-links.active {
+        right: 0;
+    }
+
+    .nav-links li {
+        width: 100%;
+        text-align: center;
+    }
+
+    .nav-links a {
+        display: block;
+        padding: 1rem;
+        width: 100%;
+    }
+
+    .nav-links button {
+        width: 100%;
+        margin-top: 1rem;
+    }
+
+    /* Animate menu toggle */
+    .menu-toggle.active span:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+
+    .menu-toggle.active span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .menu-toggle.active span:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
 }
 
 button {
@@ -88,6 +192,8 @@ button {
     background-color: var(--secondary-color);
     color: var(--light-color);
     transition: all 0.3s ease;
+    font-size: 1rem;
+    font-weight: 600;
 }
 
 button:hover {
@@ -155,6 +261,10 @@ button:hover {
     position: relative;
     overflow: hidden;
     height: 100%; /* Ensure consistent height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .service-card::before {
@@ -179,7 +289,6 @@ button:hover {
 .service-link:hover .service-card {
     transform: translateY(-5px);
     box-shadow: 0 5px 15px rgba(255, 153, 51, 0.3);
-    animation: pulse 1.5s ease-in-out infinite;
 }
 
 .service-link:hover .service-card::before {
@@ -234,12 +343,14 @@ button:hover {
     background-color: var(--light-color);
     padding: 2rem;
     border-radius: 8px;
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     min-width: 300px;
+    max-width: 90%;
     border: 2px solid var(--primary-color);
+    z-index: 1001;
 }
 
 .close {
@@ -256,27 +367,107 @@ form {
     gap: 1rem;
 }
 
-input {
-    padding: 0.5rem;
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.8rem;
     border: 1px solid #ddd;
     border-radius: 4px;
+    transition: all 0.3s ease;
+    font-size: 1rem;
 }
 
-input:focus {
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
     border-color: var(--primary-color);
-    outline: none;
     box-shadow: 0 0 5px rgba(255, 153, 51, 0.3);
+    outline: none;
 }
 
-/* Footer */
-footer {
+.submit-btn {
     background-color: var(--primary-color);
-    color: var(--light-color);
-    text-align: center;
-    padding: 1rem;
-    position: relative;
-    bottom: 0;
+    color: white;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
     width: 100%;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: var(--orange-dark);
+    transform: translateY(-2px);
+}
+
+/* Success message animation */
+@keyframes slideIn {
+    0% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.booking-success {
+    background-color: #4CAF50;
+    color: white;
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 2rem;
+    animation: slideIn 0.5s ease-out;
+    display: none;
+}
+
+/* Add these new styles for the confirmation message */
+.booking-confirmation {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1.5rem;
+    border-radius: 4px;
+    margin-bottom: 2rem;
+    animation: slideIn 0.5s ease-out;
+    display: none;
+    text-align: center;
+    position: relative;
+}
+
+.scanning-animation {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.scanning-animation::after {
+    content: '';
+    animation: scanning 1.5s infinite;
+    display: inline-block;
+    width: 20px;
+}
+
+@keyframes scanning {
+    0% { content: ''; }
+    25% { content: '.'; }
+    50% { content: '..'; }
+    75% { content: '...'; }
+    100% { content: ''; }
 }
 
 /* Additional Styling for better visual hierarchy */
@@ -373,96 +564,82 @@ h1, h2, h3 {
     text-align: center;
 }
 
-.form-group {
-    margin-bottom: 1.5rem;
+/* Add responsive styles for mobile devices */
+@media screen and (max-width: 768px) {
+    .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: var(--primary-color);
+        padding: 1rem;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .nav-links li {
+        margin: 0.5rem 0;
+    }
+
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .service-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-content {
+        width: 90%;
+        margin: 1rem;
+    }
 }
 
-.form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    color: var(--text-color);
-    font-weight: 600;
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea {
-    width: 100%;
-    padding: 0.8rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    transition: all 0.3s ease;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 5px rgba(255, 153, 51, 0.3);
-    outline: none;
-}
-
-.submit-btn {
+/* Fix footer positioning */
+footer {
     background-color: var(--primary-color);
-    color: white;
-    padding: 1rem 2rem;
+    color: var(--light-color);
+    text-align: center;
+    padding: 1rem;
+    margin-top: 2rem;
+    width: 100%;
+}
+
+/* Fix logo size */
+.logo img {
+    max-height: 40px;
+    width: auto;
+}
+
+/* Fix button styles */
+button {
+    padding: 0.5rem 1rem;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    width: 100%;
-    font-size: 1.1rem;
-    font-weight: 600;
+    background-color: var(--secondary-color);
+    color: var(--light-color);
     transition: all 0.3s ease;
+    font-size: 1rem;
+    font-weight: 600;
 }
 
-.submit-btn:hover {
+button:hover {
     background-color: var(--orange-dark);
     transform: translateY(-2px);
 }
 
-/* Success message animation */
-@keyframes slideIn {
-    0% {
-        transform: translateY(-100%);
-        opacity: 0;
-    }
-    100% {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-.booking-success {
-    background-color: #4CAF50;
-    color: white;
-    padding: 1rem;
-    border-radius: 4px;
-    margin-bottom: 2rem;
-    animation: slideIn 0.5s ease-out;
-    display: none;
-}
-
-/* Add these new styles for the confirmation message */
-.booking-confirmation {
-    background-color: var(--primary-color);
-    color: white;
-    padding: 1.5rem;
-    border-radius: 4px;
-    margin-bottom: 2rem;
-    animation: slideIn 0.5s ease-out;
-    display: none;
-    text-align: center;
-    position: relative;
-}
-
-.scanning-animation {
-    display: inline-block;
-    margin-left: 10px;
-}
-
+/* Fix scanning animation */
 .scanning-animation::after {
     content: '';
     animation: scanning 1.5s infinite;
+    display: inline-block;
+    width: 20px;
 }
 
 @keyframes scanning {
