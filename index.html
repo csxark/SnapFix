@@ -3,104 +3,267 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SnapFix - Your Trusted Service Provider</title>
+    <meta name="description" content="SERVICE-LO - Your trusted partner for professional home services including carpentry, electrical, plumbing, and painting services.">
+    <meta name="keywords" content="home services, carpenter, electrician, plumber, painter, professional services">
+    <meta name="author" content="SERVICE-LO">
+    <meta property="og:title" content="SERVICE-LO | Professional Home Services">
+    <meta property="og:description" content="Find trusted professionals for all your home service needs">
+    <meta property="og:image" content="path-to-your-og-image.jpg">
+    <meta property="og:url" content="your-website-url">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <title>SERVICE-Lo | HOME</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="logo">
-                <img src="Black and Blue Initials Creative Logo (3).png" alt="SnapFix Logo" >
-            </div>
-            <div class="menu-toggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#leaderboard">Leaderboard</a></li>
-                <li><button id="loginBtn">Login</button></li>
-                <li><button id="registerBtn">Register</button></li>
-            </ul>
-        </nav>
-    </header>
+    <div id="navbar">
+        <div class="navbar-brand">
+            <a href="#home"><img src="logo.png" alt="Logo" height="80"></a>
+        </div>
+        
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
 
-    <main>
-        <section id="home" class="hero">
-            <h1>Professional Home Services</h1>
-            <p>Find trusted professionals for all your home service needs!</p>
-        </section>
-
-        <section id="services" class="services">
-            <h2>Our Services</h2>
-            <div class="service-grid">
-                <a href="booking.html" class="service-link">
-                    <div class="service-card">
-                        <i class="fas fa-bolt"></i>
-                        <h3>Electrician</h3>
-                        <p>Professional electrical services</p>
-                    </div>
-                </a>
-                <a href="booking.html" class="service-link">
-                    <div class="service-card">
-                        <i class="fas fa-wrench"></i>
-                        <h3>Plumber</h3>
-                        <p>Expert plumbing solutions</p>
-                    </div>
-                </a>
-                <a href="booking.html" class="service-link">
-                    <div class="service-card">
-                        <i class="fas fa-hammer"></i>
-                        <h3>Carpenter</h3>
-                        <p>Quality carpentry work</p>
-                    </div>
-                </a>
+        <div class="navbar-content">
+            <div class="nav-links">
+                <a href="home.html" class="active"><b>HOME</b></a>
+                <a href="#"><b>ABOUT</b></a>
+                <a href="#"><b>SERVICES</b></a>
+                <a href="#"><b>CONTACT US</b></a>
             </div>
-        </section>
 
-        <section id="leaderboard" class="leaderboard">
+            <div class="search-container">
+                <input placeholder="Search services..." type="search">
+                <button class="search-btn">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+
+            <div class="auth-buttons">
+                <button class="login-btn">Login</button>
+                <button class="signup-btn">Sign Up</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="hero-section">
+        <h1>Professional Services at Your Doorstep</h1>
+        <p>Find trusted professionals for all your home service needs</p>
+        <button class="cta-button">Book Now</button>
+    </div>
+
+    <section class="services-section">
+        <h2>Our Services</h2>
+        <div class="services-container">
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3>Electrician</h3>
+                <p>Professional electrical services</p>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-wrench"></i>
+                </div>
+                <h3>Plumber</h3>
+                <p>Expert plumbing solutions</p>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-hammer"></i>
+                </div>
+                <h3>Carpenter</h3>
+                <p>Quality carpentry work</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="leaderboard-section">
+        <div class="leaderboard-container">
             <h2>Top Service Providers</h2>
-            <div class="leaderboard-container">
-                <!-- Leaderboard content will be dynamically populated -->
+            <div class="provider-card">
+                <h3>#1 Dummy1</h3>
+                <div class="service">Service: Carpenter</div>
+                <div class="rating">
+                    Rating: 4.9 <span class="star">⭐</span>
+                    <span class="reviews">(89 reviews)</span>
+                </div>
             </div>
-        </section>
-    </main>
-
-    <!-- Login Modal -->
-    <div id="loginModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Login</h2>
-            <form id="loginForm">
-                <input type="email" placeholder="Email" required>
-                <input type="password" placeholder="Password" required>
-                <button type="submit">Login</button>
-            </form>
+            <div class="provider-card">
+                <h3>#2 Dummy2</h3>
+                <div class="service">Service: Electrician</div>
+                <div class="rating">
+                    Rating: 4.8 <span class="star">⭐</span>
+                    <span class="reviews">(156 reviews)</span>
+                </div>
+            </div>
+            <div class="provider-card">
+                <h3>#3 Dummy3</h3>
+                <div class="service">Service: Plumber</div>
+                <div class="rating">
+                    Rating: 4.7 <span class="star">⭐</span>
+                    <span class="reviews">(123 reviews)</span>
+                </div>
+            </div>
+            <div class="provider-card">
+                <h3>#4 Dummy4</h3>
+                <div class="service">Service: Electrician</div>
+                <div class="rating">
+                    Rating: 4.6 <span class="star">⭐</span>
+                    <span class="reviews">(94 reviews)</span>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
 
-    <!-- Register Modal -->
-    <div id="registerModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Register</h2>
-            <form id="registerForm">
-                <input type="text" placeholder="Full Name" required>
-                <input type="email" placeholder="Email" required>
-                <input type="password" placeholder="Password" required>
-                <input type="password" placeholder="Confirm Password" required>
-                <button type="submit">Register</button>
-            </form>
-        </div>
-    </div>
-
+    <!-- Updated Footer -->
     <footer>
-        <p>&copy; 2024 HomeServices. All rights reserved.</p>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>SERVICE-LO</h3>
+                <p>Your trusted partner for professional home services. We connect you with skilled professionals to handle all your home service needs with quality and reliability.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Our Services</a></li>
+                    <li><a href="#">How It Works</a></li>
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">FAQs</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="#">Electrical Services</a></li>
+                    <li><a href="#">Plumbing Services</a></li>
+                    <li><a href="#">Carpentry Work</a></li>
+                    <li><a href="#">Home Cleaning</a></li>
+                    <li><a href="#">Appliance Repair</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Contact Info</h4>
+                <div class="footer-contact">
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>123 Business Street, City, Country</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <span>+1 234 567 8900</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>info@servicelo.com</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-clock"></i>
+                        <span>Mon - Sat: 8:00 AM - 7:00 PM</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 SERVICE-LO. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        </div>
     </footer>
 
     <script src="script.js"></script>
+    <script src="service-worker.js"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HomeAndConstructionBusiness",
+      "name": "SERVICE-LO",
+      "image": "path-to-your-logo.jpg",
+      "description": "Professional home services including carpentry, electrical, plumbing, and painting services.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Your City",
+        "addressRegion": "Your Region",
+        "addressCountry": "Your Country"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "789"
+      },
+      "priceRange": "$$"
+    }
+    </script>
+    
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="submit-btn">Login</button>
+                <p class="form-footer">
+                    Don't have an account? <a href="#" class="switch-form" data-target="registerModal">Register here</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Registration Modal -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Register</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="registerName">Full Name</label>
+                    <input type="text" id="registerName" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Email</label>
+                    <input type="email" id="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPhone">Phone Number</label>
+                    <input type="tel" id="registerPhone" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Password</label>
+                    <input type="password" id="registerPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" required>
+                </div>
+                <button type="submit" class="submit-btn">Register</button>
+                <p class="form-footer">
+                    Already have an account? <a href="#" class="switch-form" data-target="loginModal">Login here</a>
+                </p>
+            </form>
+        </div>
+    </div>
 </body>
-</html> 
+</html>

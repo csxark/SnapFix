@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Book your home service appointment">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>SERVICE-LO | Book Service</title>
+</head>
+<body>
+    <div id="navbar">
+        <div class="navbar-brand">
+            <a href="index.html"><img src="logo.png" alt="Logo" height="40"></a>
+        </div>
+    </div>
+
+    <div class="service-booking-container">
+        <h1>Book Your Service</h1>
+        <form id="serviceBookingForm" class="booking-form">
+            <div class="form-section">
+                <h3>Contact Information</h3>
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="alternatePhone">Alternate Phone (Optional)</label>
+                    <input type="tel" id="alternatePhone">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Service Details</h3>
+                <div class="form-group">
+                    <label for="serviceType">Select Service</label>
+                    <select id="serviceType" required>
+                        <option value="">Choose a service...</option>
+                        <option value="electrician">Electrician</option>
+                        <option value="plumber">Plumber</option>
+                        <option value="carpenter">Carpenter</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="serviceDate">Preferred Date</label>
+                    <input type="date" id="serviceDate" required min="">
+                </div>
+
+                <div class="form-group">
+                    <label for="serviceTime">Preferred Time</label>
+                    <select id="serviceTime" required>
+                        <option value="">Select time slot...</option>
+                        <option value="09:00">09:00 AM</option>
+                        <option value="10:00">10:00 AM</option>
+                        <option value="11:00">11:00 AM</option>
+                        <option value="12:00">12:00 PM</option>
+                        <option value="13:00">01:00 PM</option>
+                        <option value="14:00">02:00 PM</option>
+                        <option value="15:00">03:00 PM</option>
+                        <option value="16:00">04:00 PM</option>
+                        <option value="17:00">05:00 PM</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="serviceAddress">Service Address</label>
+                    <textarea id="serviceAddress" rows="3" required placeholder="Enter your complete address"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="landmark">Landmark (Optional)</label>
+                    <input type="text" id="landmark" placeholder="Any nearby landmark for easy location">
+                </div>
+
+                <div class="form-group">
+                    <label for="serviceDescription">Issue Description</label>
+                    <textarea id="serviceDescription" rows="4" required placeholder="Please describe the issue you're facing..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="urgencyLevel">Urgency Level</label>
+                    <select id="urgencyLevel" required>
+                        <option value="normal">Normal</option>
+                        <option value="urgent">Urgent</option>
+                        <option value="emergency">Emergency</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">Confirm Booking</button>
+        </form>
+    </div>
+
+    <!-- Confirmation Screen -->
+    <div id="confirmationScreen" class="confirmation-overlay">
+        <div class="confirmation-content">
+            <div class="confirmation-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2>Booking Confirmed!</h2>
+            <div class="booking-details">
+                <h3>Booking Details</h3>
+                <div id="confirmationDetails">
+                    <!-- Details will be inserted here by JavaScript -->
+                </div>
+            </div>
+            <p class="confirmation-message">
+                Thank you for choosing our service! Our service provider will contact you shortly.
+            </p>
+            <div class="confirmation-buttons">
+                <button onclick="window.location.href='index.html'" class="home-btn">Return to Home</button>
+                <button onclick="window.print()" class="print-btn">Print Details</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Set minimum date to today
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('serviceDate').min = today;
+
+        // Pre-fill contact information if available
+        if (localStorage.getItem('userName')) {
+            document.getElementById('name').value = localStorage.getItem('userName');
+        }
+        if (localStorage.getItem('userEmail')) {
+            document.getElementById('email').value = localStorage.getItem('userEmail');
+        }
+        if (localStorage.getItem('userPhone')) {
+            document.getElementById('phone').value = localStorage.getItem('userPhone');
+        }
+
+        // Handle form submission
+        document.getElementById('serviceBookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Collect form data
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                alternatePhone: document.getElementById('alternatePhone').value,
+                serviceType: document.getElementById('serviceType').value,
+                serviceDate: document.getElementById('serviceDate').value,
+                serviceTime: document.getElementById('serviceTime').value,
+                serviceAddress: document.getElementById('serviceAddress').value,
+                landmark: document.getElementById('landmark').value,
+                serviceDescription: document.getElementById('serviceDescription').value,
+                urgencyLevel: document.getElementById('urgencyLevel').value
+            };
+
+            // Generate confirmation details HTML
+            const detailsHTML = `
+                <div class="detail-item">
+                    <strong>Name:</strong> ${formData.name}
+                </div>
+                <div class="detail-item">
+                    <strong>Service:</strong> ${formData.serviceType}
+                </div>
+                <div class="detail-item">
+                    <strong>Date:</strong> ${formData.serviceDate}
+                </div>
+                <div class="detail-item">
+                    <strong>Time:</strong> ${formData.serviceTime}
+                </div>
+                <div class="detail-item">
+                    <strong>Contact:</strong> ${formData.phone}
+                </div>
+                <div class="detail-item">
+                    <strong>Address:</strong> ${formData.serviceAddress}
+                </div>
+                <div class="detail-item">
+                    <strong>Booking ID:</strong> ${generateBookingId()}
+                </div>
+            `;
+
+            // Insert details into confirmation screen
+            document.getElementById('confirmationDetails').innerHTML = detailsHTML;
+            
+            // Show confirmation screen
+            document.getElementById('confirmationScreen').style.display = 'flex';
+        });
+
+        // Generate a random booking ID
+        function generateBookingId() {
+            return 'BK' + Date.now().toString().slice(-8) + Math.random().toString(36).substr(2, 4).toUpperCase();
+        }
+    </script>
+</body>
+</html>

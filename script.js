@@ -1,234 +1,328 @@
-// Modal functionality
-const loginBtn = document.getElementById('loginBtn');
-const registerBtn = document.getElementById('registerBtn');
-const loginModal = document.getElementById('loginModal');
-const registerModal = document.getElementById('registerModal');
-const closeBtns = document.querySelectorAll('.close');
-
-// Sample data for service providers
-const serviceProviders = [
-    { id: 1, name: "Dummy2", service: "Electrician", rating: 4.8, reviews: 156 },
-    { id: 2, name: "Dummy3", service: "Plumber", rating: 4.7, reviews: 123 },
-    { id: 3, name: "Dummy1", service: "Carpenter", rating: 4.9, reviews: 89 },
-    { id: 4, name: "Dummy4", service: "Electrician", rating: 4.6, reviews: 94 },
-    { id: 5, name: "Dummy5", service: "Plumber", rating: 4.5, reviews: 76 }
-];
-
-// Show modals
-loginBtn.addEventListener('click', () => {
-    loginModal.style.display = 'block';
-});
-
-registerBtn.addEventListener('click', () => {
-    registerModal.style.display = 'block';
-});
-
-// Close modals
-closeBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-        loginModal.style.display = 'none';
-        registerModal.style.display = 'none';
-    });
-});
-
-// Close modal when clicking outside
-window.addEventListener('click', (e) => {
-    if (e.target === loginModal || e.target === registerModal) {
-        loginModal.style.display = 'none';
-        registerModal.style.display = 'none';
+// Add at the beginning of script.js
+class ErrorBoundary {
+    static handleError(error, errorInfo) {
+        console.error('Error occurred:', error);
+        // Send to error reporting service
+        this.logError(error, errorInfo);
     }
-});
 
-// Handle form submissions
-document.getElementById('loginForm')?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const email = e.target.querySelector('input[type="email"]').value;
-    const password = e.target.querySelector('input[type="password"]').value;
-    
-    // Basic validation
-    if (!email || !password) {
-        alert('Please fill in all fields');
-        return;
+    static logError(error, errorInfo) {
+        // Implement error logging logic
     }
-    
-    // Add login logic here
-    alert('Login functionality to be implemented');
-    loginModal.style.display = 'none';
-});
-
-document.getElementById('registerForm')?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const name = e.target.querySelector('input[type="text"]').value;
-    const email = e.target.querySelector('input[type="email"]').value;
-    const password = e.target.querySelectorAll('input[type="password"]')[0].value;
-    const confirmPassword = e.target.querySelectorAll('input[type="password"]')[1].value;
-    
-    // Basic validation
-    if (!name || !email || !password || !confirmPassword) {
-        alert('Please fill in all fields');
-        return;
-    }
-    
-    if (password !== confirmPassword) {
-        alert('Passwords do not match');
-        return;
-    }
-    
-    // Add registration logic here
-    alert('Registration functionality to be implemented');
-    registerModal.style.display = 'none';
-});
-
-// Populate leaderboard
-function populateLeaderboard() {
-    const leaderboardContainer = document.querySelector('.leaderboard-container');
-    if (!leaderboardContainer) return;
-    
-    // Sort service providers by rating
-    const sortedProviders = [...serviceProviders].sort((a, b) => b.rating - a.rating);
-    
-    leaderboardContainer.innerHTML = sortedProviders.map((provider, index) => `
-        <div class="provider-card" style="background-color: #fff; padding: 1rem; margin: 1rem 0; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-            <h3>#${index + 1} ${provider.name}</h3>
-            <p>Service: ${provider.service}</p>
-            <p>Rating: ${provider.rating} ⭐ (${provider.reviews} reviews)</p>
-        </div>
-    `).join('');
 }
 
-// Initialize leaderboard
-populateLeaderboard();
+// Constants
+const TIMING = {
+    LOADER_FADE: 1000,
+    LOADER_REMOVE: 2000
+};
 
-// Add booking functionality to service cards
-document.querySelectorAll('.service-link').forEach(link => {
-    link.addEventListener('click', (e) => {
-        const isLoggedIn = false; // Replace with actual login check
-        if (!isLoggedIn) {
-            e.preventDefault();
-            loginModal.style.display = 'block';
-        }
-    });
-});
+// Modal Handler
+class ModalHandler {
+    constructor() {
+        this.modals = document.querySelectorAll('.modal');
+        this.triggers = {
+            login: document.querySelector('.login-btn'),
+            signup: document.querySelector('.signup-btn'),
+            bookNow: document.querySelector('.cta-button')
+        };
+        this.init();
+    }
 
-// Handle booking form
-document.addEventListener('DOMContentLoaded', function() {
-    // Handle service selection
-    const serviceLinks = document.querySelectorAll('.service-link');
-    serviceLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            const serviceName = this.querySelector('h3').textContent;
-            localStorage.setItem('selectedService', serviceName);
+    init() {
+        // Setup triggers
+        this.triggers.login?.addEventListener('click', () => this.openModal('loginModal'));
+        this.triggers.signup?.addEventListener('click', () => this.openModal('registerModal'));
+        this.triggers.bookNow?.addEventListener('click', () => this.openModal('loginModal'));
+
+        // Setup close buttons
+        document.querySelectorAll('.close-modal').forEach(closeBtn => {
+            closeBtn.addEventListener('click', (e) => {
+                this.closeModal(e.target.closest('.modal'));
+            });
         });
-    });
 
-    // Pre-select service in booking form if coming from service card
-    const serviceSelect = document.getElementById('service');
-    if (serviceSelect) {
-        const selectedService = localStorage.getItem('selectedService');
-        if (selectedService) {
-            const options = serviceSelect.options;
-            for (let i = 0; i < options.length; i++) {
-                if (options[i].text.toLowerCase() === selectedService.toLowerCase()) {
-                    serviceSelect.selectedIndex = i;
-                    break;
+        // Setup switch form links
+        document.querySelectorAll('.switch-form').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const currentModal = e.target.closest('.modal');
+                const targetModalId = e.target.dataset.target;
+                this.switchModal(currentModal, targetModalId);
+            });
+        });
+
+        // Setup form submissions
+        document.getElementById('loginForm')?.addEventListener('submit', this.handleLogin.bind(this));
+        document.getElementById('registerForm')?.addEventListener('submit', this.handleRegister.bind(this));
+
+        // Close modal when clicking outside
+        this.modals.forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    this.closeModal(modal);
                 }
-            }
-            localStorage.removeItem('selectedService'); // Clear after use
+            });
+        });
+    }
+
+    openModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (!modal) return;
+
+        modal.style.display = 'flex';
+        // Trigger reflow
+        modal.offsetHeight;
+        modal.classList.add('show');
+    }
+
+    closeModal(modal) {
+        modal.classList.remove('show');
+        setTimeout(() => {
+            modal.style.display = 'none';
+        }, 300);
+    }
+
+    switchModal(currentModal, targetModalId) {
+        this.closeModal(currentModal);
+        setTimeout(() => {
+            this.openModal(targetModalId);
+        }, 300);
+    }
+
+    handleLogin(e) {
+        e.preventDefault();
+        // Add your login logic here
+        console.log('Login submitted');
+        
+        // Simulate successful login
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+
+        // Here you would typically validate credentials with your backend
+        if (email && password) {
+            // Store user info in session/local storage if needed
+            localStorage.setItem('userEmail', email);
+            
+            // Redirect to service confirmation page
+            window.location.href = 'serviceconfirm.html';
         }
     }
 
-    // Handle form submission
-    const bookingForm = document.querySelector('.booking-form');
-    const confirmationMessage = document.querySelector('.booking-confirmation');
+    handleRegister(e) {
+        e.preventDefault();
+        // Add your registration logic here
+        console.log('Registration submitted');
 
-    if (bookingForm) {
-        bookingForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Basic form validation
-            const requiredFields = ['service', 'date', 'time', 'name', 'email', 'phone', 'address'];
-            const missingFields = requiredFields.filter(field => !this[field].value);
-            
-            if (missingFields.length > 0) {
-                alert('Please fill in all required fields');
-                return;
-            }
-            
-            // Validate email format
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(this.email.value)) {
-                alert('Please enter a valid email address');
-                return;
-            }
-            
-            // Validate phone number (basic format)
-            const phoneRegex = /^\+?[\d\s-]{10,}$/;
-            if (!phoneRegex.test(this.phone.value)) {
-                alert('Please enter a valid phone number');
-                return;
-            }
-            
-            // Validate date is not in the past
-            const selectedDate = new Date(this.date.value);
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            
-            if (selectedDate < today) {
-                alert('Please select a future date');
-                return;
-            }
-            
-            // Hide the form
-            bookingForm.style.display = 'none';
-            
-            // Show initial confirmation message
-            confirmationMessage.innerHTML = `
-                <h3>Booking confirmed!</h3>
-                <p>Scanning for nearest service provider<span class="scanning-animation"></span></p>
-            `;
-            confirmationMessage.style.display = 'block';
+        // Simulate successful registration
+        const name = document.getElementById('registerName').value;
+        const email = document.getElementById('registerEmail').value;
+        const phone = document.getElementById('registerPhone').value;
+        const password = document.getElementById('registerPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
 
-            // Simulate finding a service provider
-            setTimeout(() => {
-                confirmationMessage.innerHTML = `
-                    <h3>Service Provider Found!</h3>
-                    <p>A professional will contact you shortly.</p>
-                `;
-                
-                // Reset and show form after 3 seconds
-                setTimeout(() => {
-                    confirmationMessage.style.display = 'none';
-                    bookingForm.style.display = 'block';
-                    bookingForm.reset();
-                }, 3000);
-            }, 3000);
+        // Here you would typically send registration data to your backend
+        if (password === confirmPassword && email && name && phone) {
+            // Store user info in session/local storage if needed
+            localStorage.setItem('userEmail', email);
+            localStorage.setItem('userName', name);
+            localStorage.setItem('userPhone', phone);
+
+            // Redirect to service confirmation page
+            window.location.href = 'serviceconfirm.html';
+        }
+    }
+}
+
+// Smooth Scroll Handler
+class SmoothScrollHandler {
+    constructor() {
+        this.init();
+    }
+
+    init() {
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', this.handleClick.bind(this));
         });
     }
+
+    handleClick(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        
+        if (targetElement) {
+            targetElement.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    }
+}
+
+// Hamburger Menu Handler
+class HamburgerMenuHandler {
+    constructor() {
+        this.hamburger = document.querySelector('.hamburger');
+        this.navbarContent = document.querySelector('.navbar-content');
+        this.init();
+    }
+
+    init() {
+        if (!this.hamburger || !this.navbarContent) return;
+        
+        this.hamburger.addEventListener('click', () => {
+            this.hamburger.classList.toggle('active');
+            this.navbarContent.classList.toggle('active');
+            
+            // Add animation to hamburger
+            const spans = this.hamburger.querySelectorAll('span');
+            if (this.hamburger.classList.contains('active')) {
+                spans[0].style.transform = 'rotate(45deg) translate(6px, 6px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(6px, -6px)';
+            } else {
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+            }
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!this.hamburger.contains(e.target) && 
+                !this.navbarContent.contains(e.target) && 
+                this.navbarContent.classList.contains('active')) {
+                this.hamburger.click();
+            }
+        });
+    }
+}
+
+// Initialize everything when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize modals
+    new ModalHandler();
+
+    // Initialize smooth scroll
+    new SmoothScrollHandler();
+
+    // Initialize hamburger menu
+    new HamburgerMenuHandler();
 });
 
-// Mobile menu functionality
-const menuToggle = document.querySelector('.menu-toggle');
-const navLinks = document.querySelector('.nav-links');
-
-menuToggle?.addEventListener('click', () => {
-    menuToggle.classList.toggle('active');
-    navLinks.classList.toggle('active');
+// Error handling
+window.addEventListener('error', (error) => {
+    console.error('An error occurred:', error.message);
+    // You could add error reporting service here
 });
 
-// Close mobile menu when clicking outside
-document.addEventListener('click', (e) => {
-    if (navLinks?.classList.contains('active') && 
-        !e.target.closest('.nav-links') && 
-        !e.target.closest('.menu-toggle')) {
-        menuToggle.classList.remove('active');
-        navLinks.classList.remove('active');
+// Service Worker Registration
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+            .then(registration => {
+                console.log('ServiceWorker registration successful');
+            })
+            .catch(err => {
+                console.log('ServiceWorker registration failed: ', err);
+            });
+    });
+}
+
+// Function to generate a random booking ID
+function generateBookingId() {
+    const timestamp = Date.now().toString(36);
+    const randomStr = Math.random().toString(36).substring(2, 8);
+    return `BK-${timestamp}-${randomStr}`.toUpperCase();
+}
+
+// Function to format date
+function formatDate(date) {
+    return new Date(date).toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+}
+
+// Function to handle form submission and show confirmation
+function handleServiceFormSubmit(event) {
+    event.preventDefault();
+    
+    // Get form data
+    const form = event.target;
+    const formData = new FormData(form);
+    const bookingData = {
+        bookingId: generateBookingId(),
+        timestamp: new Date().toLocaleString(),
+        fullName: formData.get('fullName'),
+        email: formData.get('email'),
+        phone: formData.get('phone'),
+        altPhone: formData.get('altPhone') || 'Not provided',
+        service: formData.get('service'),
+        date: formatDate(formData.get('date')),
+        time: formData.get('time'),
+        address: formData.get('address'),
+        landmark: formData.get('landmark'),
+        description: formData.get('description'),
+        urgency: formData.get('urgency')
+    };
+
+    // Update confirmation screen with booking details
+    document.querySelector('.booking-id').textContent = bookingData.bookingId;
+    document.querySelector('.booking-timestamp').textContent = bookingData.timestamp;
+    
+    const detailsContainer = document.querySelector('.booking-details');
+    detailsContainer.innerHTML = `
+        <div class="detail-item"><strong>Name:</strong> ${bookingData.fullName}</div>
+        <div class="detail-item"><strong>Email:</strong> ${bookingData.email}</div>
+        <div class="detail-item"><strong>Phone:</strong> ${bookingData.phone}</div>
+        <div class="detail-item"><strong>Alternate Phone:</strong> ${bookingData.altPhone}</div>
+        <div class="detail-item"><strong>Service:</strong> ${bookingData.service}</div>
+        <div class="detail-item"><strong>Date:</strong> ${bookingData.date}</div>
+        <div class="detail-item"><strong>Time:</strong> ${bookingData.time}</div>
+        <div class="detail-item"><strong>Address:</strong> ${bookingData.address}</div>
+        <div class="detail-item"><strong>Landmark:</strong> ${bookingData.landmark}</div>
+        <div class="detail-item"><strong>Description:</strong> ${bookingData.description}</div>
+        <div class="detail-item"><strong>Urgency:</strong> ${bookingData.urgency}</div>
+    `;
+
+    // Show confirmation screen
+    const confirmationOverlay = document.querySelector('.confirmation-overlay');
+    confirmationOverlay.style.display = 'flex';
+
+    // Store booking data in localStorage
+    const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+    bookings.push(bookingData);
+    localStorage.setItem('bookings', JSON.stringify(bookings));
+}
+
+// Function to handle print button click
+function handlePrint() {
+    window.print();
+}
+
+// Function to handle return to home
+function returnToHome() {
+    window.location.href = 'index.html';
+}
+
+// Add event listeners when the DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    const serviceForm = document.getElementById('serviceBookingForm');
+    if (serviceForm) {
+        serviceForm.addEventListener('submit', handleServiceFormSubmit);
+    }
+
+    const printBtn = document.querySelector('.print-btn');
+    if (printBtn) {
+        printBtn.addEventListener('click', handlePrint);
+    }
+
+    const homeBtn = document.querySelector('.home-btn');
+    if (homeBtn) {
+        homeBtn.addEventListener('click', returnToHome);
     }
 });
-
-// Close mobile menu when clicking a link
-document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', () => {
-        menuToggle.classList.remove('active');
-        navLinks.classList.remove('active');
-    });
-}); 
